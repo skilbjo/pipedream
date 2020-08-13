@@ -23,5 +23,9 @@ module.exports = {
       const { logGroups, nextToken } = data;
       return { logGroups, nextToken };
     },
+    async dynamoDbStream(region) {
+      const AWS = this.sdk(region);
+      const dynamodbstreams = new AWS.DynamoDBStreams({apiVersion: '2012-08-10'});
+    }
   },
 };
