@@ -1,10 +1,13 @@
 const fs = require('fs');
+const os = require('os');
 
 const f = require('./fixtures/fixtures');
 const src = require('./../../../components/sftp/sftp.app');
 
+const sftpHost = os.platform() === 'darwin' ? '192.168.99.100' : 'localhost'
+
 const sftpConfig = {
-  host: '192.168.99.100',
+  host: sftpHost,
   port: 2222,
   username: 'dev',
   password: 'pass'

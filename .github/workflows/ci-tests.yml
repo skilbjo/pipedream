@@ -1,0 +1,12 @@
+name: ci-tests
+
+on: push
+
+jobs:
+  ci-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm i
+      - run: dev-resources/docker.up
+      - run: npx jest --detectOpenHandles --forceExit
