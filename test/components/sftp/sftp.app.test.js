@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 const f = require('./fixtures/fixtures');
-const src = require('./../src/sftp.app');
+const src = require('./../../../components/sftp/sftp.app');
 
 const sftpConfig = {
   host: '192.168.99.100',
