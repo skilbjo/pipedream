@@ -5,10 +5,10 @@ module.exports = {
   description: 'Emits new file event when a new file is detected in comparison with a prior checkpoint',
   version: '0.0.1',
   props: {
-    db: "$.service.db",
+    db: '$.service.db',
     sftpPipedreamApp,
     timer: {
-      type: "$.interface.timer",
+      type: '$.interface.timer',
       default: {
         intervalSeconds: 60 * 5,
       },

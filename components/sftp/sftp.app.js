@@ -1,10 +1,10 @@
 const ssh2SftpClient = require('ssh2-sftp-client');
 
 module.exports = {
-  type: "app",
-  app: "sftp",
+  type: 'app',
+  app: 'sftp',
   props: {
-    db: "$.service.db"
+    db: '$.service.db'
   },
   methods: {
     async getClient(deps) {
