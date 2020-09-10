@@ -4,6 +4,7 @@ module.exports = {
   name: 'New File in Remote Directory',
   description: 'Emits new file event when a new file is detected in comparison with a prior checkpoint',
   version: '0.0.1',
+  dedupe: 'unique',
   props: {
     db: '$.service.db',
     sftpPipedreamApp,
@@ -24,6 +25,6 @@ module.exports = {
 
     newFiles.forEach(file => {
       this.$emit(file);
-    })
+    });
   }
 }
