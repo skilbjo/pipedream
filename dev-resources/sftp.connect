@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+port=2222
+user='dev'
+host='192.168.99.100'
+
+sftp \
+  -o StrictHOstKeyChecking=no \
+  -o UserKnownHostsFile=/dev/null \
+  -P "$port" \
+  "${user}@${host}"

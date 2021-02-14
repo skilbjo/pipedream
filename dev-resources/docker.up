@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -eou pipefail
+
+name='sftp'
+sftp_host='192.168.99.100' # reassign if you don't want to use docker and alternatively want to use an alternative sftp host; ie localhost
+port=2222                  # reassign if you want to use an alternative port locally; ie 2222
+username='dev'
+password='pass'
+sftp_mnt_point='/upload'
+
+timeout=30
+tick=2
+time_elapsed=0
+
+start_docker() {
+  docker run --rm \
+    --name "$name" \
+    --detach \
+    -p "${port}:22" \
+    atmoz/sftp:alpine \
+    "${username}:${password}:::${sftp_mnt_point}" # docs for img: https://hub.docker.com/r/atmoz/sftp/
+}
+
+check_if_up() {
+  case $(uname) in
+    Darwin ) nc -vz "$sftp_host" "$port" ;;
+    Linux )  nc -vz localhost "$port" ;;
+  esac
+}
+
+confirm_port_is_ready() {
+  while [[ $time_elapsed -le $timeout ]]; do
+    set +e; check_if_up; exit_code="$?"; set -e;
+
+    if [[ "$exit_code" -eq 0 ]]; then break; fi
+
+    let "time_elapsed+=$tick"
+    sleep "$tick"
+  done
+}
+
+ensure_sftp() {
+  docker_ps_results="$(docker ps --filter "name=${name}" | wc -l)"
+  if [[ $docker_ps_results -eq 1 ]]; then
+    start_docker
+    confirm_port_is_ready
+  elif [[ $docker_ps_results -eq 2 ]]; then
+    echo "docker.${name} is up"
+  fi
+}
+
+ensure_sftp
